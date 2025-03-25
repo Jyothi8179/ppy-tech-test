@@ -9,8 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/v2/master_list")
-//@RequiredArgsConstructor
+@RequestMapping("/v1/master_list")
 public class MasterListController {
 
     private final MasterListService masterListService;
