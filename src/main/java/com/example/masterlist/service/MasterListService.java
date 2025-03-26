@@ -1,47 +1,48 @@
 package com.example.masterlist.service;
 
-import com.example.masterlist.dto.MasterListRequest;
-import com.example.masterlist.dto.MasterListResponse;
+import com.example.masterlist.dto.MasterListFilterRequestDto;
+import com.example.masterlist.dto.MasterListRequestDto;
 import com.example.masterlist.entity.MasterListEntity;
+import com.example.masterlist.mapper.MasterListMapper;
 import com.example.masterlist.repository.MasterListRepository;
+import com.example.masterlist.specification.MasterListSpecification;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class MasterListService {
 
-    private final MasterListRepository masterListRepository;
+    Logger logger = LoggerFactory.getLogger(MasterListService.class);
+    @Autowired private MasterListRepository masterListRepository;
+    @Autowired private MasterListMapper masterListMapper;
+
+    public Page<MasterListEntity> getFilteredMasterList(MasterListFilterRequestDto request, Pageable pageable) {
+        Map<String, Object> filterParam = request.getFilterParam();
+        Specification<MasterListEntity> spec = MasterListSpecification.getFilteredResults(filterParam);
+        logger.info("Filter Params: {}", filterParam);
 
 
-
-    public Page<MasterListResponse> getMasterList(MasterListRequest request, Pageable pageable) {
-        return masterListRepository.findAll(pageable).map(this::mapToResponse);
+        return masterListRepository.findAll(spec, pageable);
     }
 
-    public void saveMasterList(MasterListRequest request) {
-        MasterListEntity entity = new MasterListEntity();
-        entity.setParent_code(request.getData().getStatus().get("parent_code"));
-        entity.setParent_name(request.getData().getStatus().get("parent_name"));
-        entity.setName(request.getData().getStatus().get("name"));
-        masterListRepository.save(entity);
+    public Long countMasterList(MasterListFilterRequestDto request) {
+        Map<String, Object> filterParam = request.getFilterParam();
+        Specification<MasterListEntity> spec = MasterListSpecification.getFilteredResults(filterParam);
+        logger.info("Filter Params: {}", filterParam);
+        return masterListRepository.count(spec);
     }
 
-    private MasterListResponse mapToResponse(MasterListEntity entity) {
-        MasterListResponse response = new MasterListResponse();
-        response.setParent_code(entity.getParent_code());
-        response.setParent_name(entity.getParent_name());
-        response.setName(entity.getName());
-        response.setPlan(entity.getPlan().name());
-        response.setOption(entity.getOption().name());
-        response.setOption_frequency(entity.getOption_frequency().name());
-        response.setSub_category(entity.getSub_category().name());
-        response.setSector(entity.getSector().name());
-        response.setBenchmark(entity.getBenchmark().name());
-        response.setFace_value(entity.getFace_value());
-        response.setTransaction_mode_allowed(entity.getTransaction_mode_allowed());
-        return response;
+    public MasterListEntity saveMasterList(MasterListRequestDto request) {
+        MasterListEntity entity = masterListMapper.toEntity(request);
+        return masterListRepository.save(entity);
     }
 }

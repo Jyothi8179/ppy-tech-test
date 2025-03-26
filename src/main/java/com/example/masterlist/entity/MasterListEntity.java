@@ -1,6 +1,8 @@
 package com.example.masterlist.entity;
 
 import com.example.masterlist.entity.enums.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,7 +11,6 @@ import java.util.Map;
 @Entity
 @Table(name = "master_list")
 @Data
-
 public class MasterListEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
