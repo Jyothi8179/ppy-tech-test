@@ -1,5 +1,5 @@
 # Use a minimal OpenJDK image to keep the image lightweight
-FROM openjdk:22-jdk-slim
+FROM openjdk:17-jdk-slim
 
 # Set environment variables
 ENV SPRING_OUTPUT_ANSI_ENABLED=ALWAYS \
