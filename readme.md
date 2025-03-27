@@ -41,11 +41,15 @@ This project is a Spring Boot application designed to provide a flexible and eff
 │   │   │   ├── /service
 │   │   │   │   └── MasterListService.java
 │   │   │   └── /specification
-│   │   │       └── MasterListSpecification.java
-│   │   └── /resources
-│   │       ├── application.properties
-│   │       └── data.sql
+│   │   │   |   └── MasterListSpecification.java 
+│   │   │   └── /mapper
+│   │   │       └── MasterListMapper.java
+│   │   ├── /resources
+│           └── application.propertie
 └── /pom.xml
+└── /Dockerfile
+└── /docker-compose.yaml
+└── /readme.md
 ```
 
 ---
