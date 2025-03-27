@@ -137,7 +137,7 @@ This project is a Spring Boot application designed to provide a flexible and eff
 ```
 4. Run the application:
 ```bash
-  mvn spring-boot:run
+  docker-compose up --build
 ```
 5. Access API on `http://localhost:8080/api/v1/master-list`
 
