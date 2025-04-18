@@ -39,7 +39,7 @@ public class MasterListController {
             return count;
         } else {
             Page<MasterListEntity> pageResult = masterListService.getFilteredMasterList(request, pageable);
-             return masterListService.filterResponseByFeilds(request.getFields(),pageResult.getContent());
+            return masterListService.filterResponseByFeilds(request.getFields(),pageResult, pageable);
         }
     }
 

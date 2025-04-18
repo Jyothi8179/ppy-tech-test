@@ -59,34 +59,51 @@ This project is a Spring Boot application designed to provide a flexible and eff
 - **Request:**
 ```json
 {
-  "fields": ["ALL"],
+  "fields": ["parent_code"],
   "count_only": false,
   "search": {
-    "value": "Sample Name"
+    "value": "Master"
   },
   "start": 0,
   "length": 10,
   "filterParam": {
-    "name": "Master List Name",
-    "plan": "DIRECT"
+    "plan": "REGULAR"
   }
 }
 ```
 - **Response:**
 ```json
 {
-  "content": [
-    {
-      "id": 1,
-      "name": "Master List Name",
-      "plan": "DIRECT",
-      "option": "Option 1",
-      "sector": "Sector Name"
-    }
-  ],
-  "totalElements": 1,
-  "totalPages": 1,
-  "pageNumber": 0
+   "content": [
+      {
+         "parent_code": "PC002"
+      }
+   ],
+   "pageable": {
+      "pageNumber": 0,
+      "pageSize": 10,
+      "sort": {
+         "empty": true,
+         "sorted": false,
+         "unsorted": true
+      },
+      "offset": 0,
+      "paged": true,
+      "unpaged": false
+   },
+   "last": true,
+   "totalElements": 1,
+   "totalPages": 1,
+   "size": 10,
+   "number": 0,
+   "sort": {
+      "empty": true,
+      "sorted": false,
+      "unsorted": true
+   },
+   "first": true,
+   "numberOfElements": 1,
+   "empty": false
 }
 ```
 
@@ -95,20 +112,37 @@ This project is a Spring Boot application designed to provide a flexible and eff
 - **Request:**
 ```json
 {
-  "name": "Master List Name",
-  "plan": "DIRECT",
-  "option": "Option 1",
-  "sector": "Sector Name"
+   "parentCode": "PC00234",
+   "parentName": "Parent Name-4",
+   "name": "Test List Name",
+   "plan": "REGULAR",
+   "option": "GROWTH",
+   "optionFrequency": "FORTNIGHTLY",
+   "subCategory": "DEBT",
+   "sector": "AGRICULTURE",
+   "benchmark": "NSE_50",
+   "faceValue": 1000,
+   "transactionModeAllowed": {
+      "ONLINE": "NO",
+      "OFFLINE": "YES"
+   }
 }
 ```
 - **Response:**
 ```json
 {
-  "id": 1,
-  "name": "Master List Name",
-  "plan": "DIRECT",
-  "option": "Option 1",
-  "sector": "Sector Name"
+   "id": 73,
+   "parentCode": "PC00234",
+   "parentName": "Parent Name-4",
+   "name": "Test List Name",
+   "plan": "REGULAR",
+   "option": "GROWTH",
+   "optionFrequency": null,
+   "subCategory": null,
+   "sector": "AGRICULTURE",
+   "benchmark": "NSE_50",
+   "faceValue": 1000,
+   "transactionModeAllowed": null
 }
 ```
 
@@ -136,8 +170,6 @@ This project is a Spring Boot application designed to provide a flexible and eff
 ```
 4. Run the application:
 ```bash
-
-=======
   docker-compose up --build
 ```
 5. Access API on `http://localhost:8080/api/v1/test`

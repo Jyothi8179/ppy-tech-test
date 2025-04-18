@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -45,12 +46,13 @@ public class MasterListService {
         logger.info("Filter Params: {}", filterParam);
         return masterListRepository.count(spec);
     }
-    public Object filterResponseByFeilds(List<String> requiredFeilds, List<MasterListEntity>filteredMasterList){
+    public Object filterResponseByFeilds(List<String> requiredFeilds, Page<MasterListEntity> filteredMasterList, Pageable pageable){
         if(requiredFeilds.size() == 1 && requiredFeilds.get(0).equalsIgnoreCase("ALL")){
             return filteredMasterList;
         }
+
         List<Map> response = new ArrayList<>();
-        for(MasterListEntity filteredEntity : filteredMasterList){
+        for(MasterListEntity filteredEntity : filteredMasterList.getContent()){
             Map res = new HashMap<>();
             for(String neededFeild : requiredFeilds){
                 try{
@@ -66,8 +68,9 @@ public class MasterListService {
             }
             response.add(res);
         }
-        return  response;
+        return  new PageImpl<>(response, pageable, filteredMasterList.getTotalElements());
     }
+
     public MasterListEntity saveMasterList(MasterListRequestDto request) {
         MasterListEntity entity = masterListMapper.toEntity(request);
         return masterListRepository.save(entity);
